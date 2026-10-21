@@ -47,4 +47,4 @@ Start with [`docs/AGENTS.md`](docs/AGENTS.md) for product truth and agent rules,
 
 ## Deployment note
 
-The assessment requires a public URL kept online for seven days. The existing Vercel project is linked locally and has the OpenCode runtime variables synchronized for Development and Production, but it has no remotely reachable `DATABASE_URL`, no production URL, and no Preview branch environment variables yet. Runtime deployment remains pending database provisioning and the existing repository/branch connection.
+The assessment requires a public URL kept online for seven days. A new Vercel project is deployed at [ai-automation-knowledge-chatbot.vercel.app](https://ai-automation-knowledge-chatbot.vercel.app). The production build is ready and the root page returns 200. Runtime database-backed features remain pending a remotely reachable MySQL `DATABASE_URL`; the local database URL intentionally was not copied to Vercel because it targets `localhost`.

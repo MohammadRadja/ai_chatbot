@@ -144,7 +144,7 @@ MySQL 8+ is accessed through Prisma. `DATABASE_URL` is required at runtime and m
 | R5  | Cost currency and context         | price-aware retrieval and source-preserving responses                    | Implemented                 |
 | R6  | Simple chat UI                    | responsive App Router `ChatShell`                                        | Implemented                 |
 | R7  | Refresh                           | refresh button and `POST /api/ingest`                                    | Implemented                 |
-| R8  | Public deployment for seven days  | deployment instructions and health endpoint                              | Pending external hosting    |
+| R8  | Public deployment for seven days  | `https://ai-automation-knowledge-chatbot.vercel.app`                    | URL deployed; seven-day run pending |
 | N1  | Answers in user language          | provider prompt preserves requested language when provider is configured | Implemented when configured |
 | N2  | Follow-up questions               | recent conversation history is included in retrieval/provider context    | Implemented                 |
 | N3  | Medical disclaimer                | one-per-conversation safety disclaimer                                   | Implemented                 |
@@ -165,11 +165,11 @@ Acceptance checklist:
 
 ## 8. Vercel deployment contract
 
-- The local workspace is linked to the existing Vercel project `ai_chatbot`; no new project was created.
+- The local workspace is linked to the new Vercel project `ai-automation-knowledge-chatbot`; the existing `ai_chatbot` project was not reused.
 - `vercel.json` sets the Next.js framework, `npm ci` install command, and `npm run build` command. It deliberately omits a static output directory because Next.js owns its server/function output.
-- `OPENCODE_API_KEY`, `OPENCODE_BASE_URL`, `OPENCODE_MODEL`, and `LOG_LEVEL` are synchronized for Development and Production. Values remain encrypted in Vercel and are not printed by the audit.
-- Preview variables could not be added because the existing Vercel project has no connected Git repository/branch; the CLI requires a preview branch target. The existing Git remote was not connected automatically because that would change an external repository integration.
-- `DATABASE_URL` was not copied to Vercel because the local value targets `localhost`. A remote MySQL URL must be supplied before Preview or Production runtime verification.
+- Production URL: `https://ai-automation-knowledge-chatbot.vercel.app`.
+- The production deployment has encrypted `OPENCODE_API_KEY`, `OPENCODE_BASE_URL`, `OPENCODE_MODEL`, and `LOG_LEVEL` variables.
+- `DATABASE_URL` was not copied to Vercel because the local value targets `localhost`. A remote MySQL URL must be supplied before database-backed Production or Preview runtime verification.
 
 ## 9. Verification record
 
@@ -208,15 +208,15 @@ Assessment test outcomes:
 - Frontend: implemented the evidence-desk chat UI, knowledge panel, refresh states, citations, and quote capture.
 - Verification: passed local quality gates, migration/seed, source refresh, health, and chat smoke tests.
 - Handoff: documented setup, test outcomes, limitations, and the external hosting requirement.
-- Vercel: linked the local workspace to the existing `ai_chatbot` project and added `vercel.json` so the project uses the Next.js framework and build pipeline. No new Vercel project or production deployment was created.
+- Vercel: created the new `ai-automation-knowledge-chatbot` project, deployed the production build, and verified the public root page.
 
 Known limitations:
 
 - Default retrieval is lexical rather than embedding-based by design so it remains easy to audit.
 - Provider quality and multilingual fluency depend on the configured provider.
 - In-memory rate limiting should be replaced with shared storage for multi-instance deployment.
-- Public seven-day hosting cannot be completed without an external deployment target and credentials.
-- The existing Vercel project now has OpenCode runtime variables synchronized for Development and Production, but no remotely reachable `DATABASE_URL`, no production URL, and no Preview branch variables. The local `DATABASE_URL` points to `localhost`, so it was intentionally not copied to Vercel; a remotely reachable production MySQL URL is required before runtime deployment.
+- The public URL is deployed, but the seven-day availability period still needs to be observed.
+- `/api/health` returns 503 and `/api/chat` returns 500 in Vercel because no remotely reachable `DATABASE_URL` is configured. The local `DATABASE_URL` points to `localhost`, so it was intentionally not copied; a production MySQL URL is required for full runtime operation.
 
 ## 11. Changelog
 
@@ -230,3 +230,4 @@ Known limitations:
 - Added the non-destructive citation-to-chunk foreign key migration and verified the MySQL schema/indexes.
 - Redesigned the evidence-desk UI, centralized visual tokens, improved responsive/accessibility states, and added consistent favicon/Apple icon branding.
 - Audited and corrected `.env` OpenCode endpoint/model configuration, added endpoint suffix normalization, linked the existing Vercel project, synchronized encrypted OpenCode variables for Development/Production, and added Next.js Vercel deployment configuration.
+- Created a new Vercel project and deployed the production build at `https://ai-automation-knowledge-chatbot.vercel.app`; production database configuration remains pending.
