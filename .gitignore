@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+.env
+.env.*
+!.env.example
+coverage
+.impeccable/review
+.impeccable/mocks
+*.log
+*.tsbuildinfo
+.vercel
